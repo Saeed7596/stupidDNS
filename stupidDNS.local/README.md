@@ -1,2 +1,15 @@
-# stupidDNS
-A smart DNS to resolve 403 issues for Iran using Cloudflare Warp.
+# stupidDNS.local
+---
+سوریس stupidDNS.local برای استفاده در سطح سیستم لوکال طراحی شده است و از طریق شبکه قابل دسترسی نمی باشد و مناسب شرایطی است که فقط نیاز دارید سیستم خودتان از این سرویس استفاده کند و مراحل ستاپ آن به شرح زیر است
+#### 1. نصب docker (در صورتی که در سیستم شما داکر نصب است این مرحله را نادیده بگیرید)
+#### 2. دریافت پروژه
+```bash
+git clone https://github.com/Aydinttb/stupidDNS.git
+cd stupidDNS/stupidDNS.local
+```
+#### 3. اجرای کانتینر ها
+```bash
+sudo docker compose up -d
+```
+#### 4. تغییر dns سیستم به 172.20.20.20
+---
