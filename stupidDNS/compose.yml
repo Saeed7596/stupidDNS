@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  nginx-proxy:
+    image: quay.io/aydin_381/nginx-proxy:v1.2
+    container_name: nginx-proxy
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - "80:80"
+      - "443:443"
+
+  dnsmasq:
+    image: quay.io/aydin_381/dnsmasq:v1.0
+    container_name: dnsmasq-proxy
+    restart: always
+    volumes:
+      - ./dnsmasq/domains.conf:/etc/dnsmasq.d/domains.conf
+      - ./dnsmasq/hosts:/etc/hosts
+    ports:
+      - "53:53"
+

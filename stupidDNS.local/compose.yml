@@ -1,0 +1,33 @@
+version: '3.8'
+networks:
+  sni-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.20.16/29
+          gateway: 172.20.20.17
+
+services:
+  nginx-proxy:
+    image: quay.io/aydin_381/nginx-proxy:v1.2
+    container_name: nginx-proxy
+    restart: always
+    networks:
+      sni-net:
+        ipv4_address: 172.20.20.22
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+
+  dnsmasq:
+    image: quay.io/aydin_381/dnsmasq:v1.0
+    container_name: dnsmasq-proxy
+    restart: always
+    volumes:
+      - ./dnsmasq/domains.conf:/etc/dnsmasq.d/domains.conf
+      - ./dnsmasq/hosts:/etc/hosts
+    networks:
+      sni-net:
+        ipv4_address: 172.20.20.20
+
