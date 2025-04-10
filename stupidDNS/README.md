@@ -10,7 +10,7 @@ cd stupidDNS/stupidDNS
 ```
 #### 3. قراردادن آیپی سرور در فایل domains.conf
 ```bash
-sed -i s/<YOUR_IP>/YOUR_SRV_IP/g dnsmasq/domains.conf 
+sed -i s/YOUR_SRV_IP/<YOUR_IP>/g dnsmasq/domains.conf 
 ```
 #### 4. اجرای کانتینر ها
 ```bash
