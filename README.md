@@ -1,6 +1,9 @@
 # stupidDNS
 A smart DNS to resolve 403 issues for Iran using Cloudflare Warp.
-![2025-04-13-102804_hyprshot](https://github.com/user-attachments/assets/2ca9c51c-ebbb-47ef-9e35-448f46ddb18f)
+
+![2025-04-14-002738_hyprshot](https://github.com/user-attachments/assets/3f14c848-6369-4d11-a2f2-632dbf192b30)
+
+
 ---
 
 ### درباره
