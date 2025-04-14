@@ -4,7 +4,7 @@ services:
   nginx-proxy:
     image: quay.io/aydin_381/nginx-proxy:v1.3
     container_name: nginx-proxy
-    restart: always
+    restart: on-failure
     cap_add:
       - NET_ADMIN
     devices:
