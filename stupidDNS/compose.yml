@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nginx-proxy:
-    image: quay.io/aydin_381/nginx-proxy:v1.3
+    image: quay.io/aydin_381/nginx-proxy:v1.4
     container_name: nginx-proxy
     restart: unless-stopped
     cap_add:
