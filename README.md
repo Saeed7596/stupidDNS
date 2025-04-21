@@ -14,3 +14,6 @@ A smart DNS to resolve 403 issues for Iran using Cloudflare Warp.
 
 ### stupidDNS
 این سرویس برای استفاده در سطح شبکه طراحی شده است و در صورتی که نیاز دارید سرویس در سطح شبکه قابل دسترسی و استفاده باشد پیشنهاد می شود از این سرویس استفاده کنید و راهنمای استفاده از آن در دایرکتوری stupidDNS موجود است
+
+---
+thanks [Gharib110](https://www.linkedin.com/in/morteza-farkhondepour/) for this idea
