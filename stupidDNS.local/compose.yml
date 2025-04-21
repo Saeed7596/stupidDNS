@@ -19,6 +19,10 @@ services:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
+    #-- uncomment below lines if you edit start script
+    #    volumes:
+    #      - ./nginx/start.sh:/app/start.sh:ro
+
 
   dnsmasq:
     image: quay.io/aydin_381/dnsmasq:v1.0
