@@ -9,7 +9,7 @@ networks:
 
 services:
   nginx-proxy:
-    image: quay.io/aydin_381/nginx-proxy:v1.4
+    image: quay.io/aydin_381/nginx-proxy:v1.5
     container_name: nginx-proxy
     restart: always
     networks:
