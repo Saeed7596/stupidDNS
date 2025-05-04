@@ -1,30 +1,34 @@
 # stupidDNS.local
 
-سرویس stupidDNS.local برای استفاده در لوکال طراحی شده است و از طریق شبکه قابل دسترسی نمی باشد و مناسب شرایطی است که نیاز دارید فقط سیستم خودتان از این سرویس استفاده کند و مراحل ستاپ آن به شرح زیر است
-#### 1. نصب docker (در صورتی که در سیستم شما داکر نصب است این مرحله را نادیده بگیرید)
-#### 2. دریافت پروژه
+The stupidDNS.local service is designed for local use and is not accessible over the network. It is a good idea to use this service only on your system, and the steps to install it are as follows.
+
+## 1. Install docker (ignore this step if docker is installed on your system)
+## 2. Clone the Project
 ```bash
 git clone https://github.com/Aydinttb/stupidDNS.git
 cd stupidDNS/stupidDNS.local
 ```
-#### 3. اجرای کانتینر ها
+## 3. Run docker compose
 ```bash
 sudo docker compose up -d
 ```
-#### 4. تغییر dns سیستم به 172.20.20.20
----
-## راهنمای اضافه کردن دامنه 
-برای تست این که آیا ترافیک به سمت دامنه مد نظر شما از این سرویس عبور می کند یا خیر می توانید دستور زیر را اجرا کنید 
+## 4. Change the system dns to 172.20.20.20
 
-```
+---
+
+## Test
+To test whether traffic to your desired domain is passing through this service, you can run the following command: 
+```bash
 dig +short <your_domain.com> @172.20.20.20
 ```
-در صورتی که ایپی ریزالو شده `172.20.20.22` باشد به این معنی است که ترافیک شما به سمت این دامنه از سرویس stupidDNS عبور می کند ولی در صورتی که مقدار دیگری ریزالو شود یعنی ترافیک به سمت دامنه مقصد از اینترنت سیستم تان عبور می کند
-## اضافه کردن دامنه
-در صورتی که دامنه مورد نظرتان از این سرویس عبور نمیکند ،میتوانید آنرا با فرمت زیر به فایل dnsmasq/domains.conf اضافه کنید و سپس کانتینر dnsmasq را ریستارت کنید
+If the resolved IP is `172.20.20.22`, it means that your traffic to this domain passes through the stupidDNS service, but if another value is resolved, it means that traffic to the destination domain passes through your system's internet.
+
+---
+
+## Add a domain
+If the domain you want does not pass through this service, you can add it to the `dnsmasq/domains.conf` file with the following format and then restart the dnsmasq container
 ```bash
 echo "address=/.example.com/172.20.20.22" >> dnsmasq/domains.conf
 sudo docker restart dnsmasq-proxy
 ```
-اگر دامنه به صورت `address=/.example.com/172.20.20.22` اضافه شود به این معنی است که ترافیک خود دامنه و تمام زیر دامنه ها از پروکسی رد می شود ولی در صورتی که دامنه به صورت `address=/example.com/172.20.20.22` اضافه شود فقط ترافیک دامنه `example.com` از پروکسی رد می شود و زیر دامنه های آن خیر
-
+If the domain is added as `address=/.example.com/172.20.20.22`, it means that the traffic of the domain itself and all subdomains will be passed through the proxy, but if the domain is added as `address=/example.com/172.20.20.22`, only the traffic of the domain `example.com` will be passed through the proxy and not its subdomains.
