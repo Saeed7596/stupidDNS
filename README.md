@@ -6,14 +6,17 @@ A smart DNS to resolve 403 issues for Iran using Cloudflare Warp.
 
 ---
 
-### درباره
-این پروژه با استفاده از nginx, dnsmasq, warp-plus, tun2proxy سرویسی روی لوکال شما ستاپ میکند که کاربرد آن مانند dns های تحریم شکن است ولی نیاز به سرور ندارد و تمام چیزی که نیاز دارد کانتینر ران تایم داکر برای اجرای دو کانتینر می باشد ،همچنین کانتینر nginx دسترسی به اینترنت آزاد دارد ،میتواند شمارا به منابع فیلتر شده نیز وصل کند و درحال حاضر موراد پرکاربرد مانند youtube , spotify , reddit .... رو توش گزاشتم ولی اینکه چجوری خودتون دامنه مورد نیازتون رو به این سرویس اضافه کنید در ادامه نوشته شده است.
+This project sets up a service on your local machine using nginx, dnsmasq, warp-plus, and tun2proxy. Its functionality is similar to anti-censorship DNS services (like Shekan DNS), but it does not require a server. All you need is a Docker runtime to run two containers.
 
-### stupidDNS.local 
-این سرویس برای استفاده در سیستم لوکال طراحی شده است و در صورتی که dns-proxy فقط در سطح لوکال نیاز دارید و نیاز ندارید که در سطح شبکه قابل استفاده باشد پیشنهاد می شود از این سرویس استفاده کنید تا هیچ پورتی از نتورک سیستم شما درگیر نباشد و راهنمای استفاده در دایرکتوری  stupidDNS.local وجود دارد .
+The nginx container has access to the unrestricted internet and can connect you to filtered resources. Currently, popular platforms like YouTube, Spotify, Reddit, and others are already configured. Instructions on how to add your own desired domains to this service are provided below.
 
-### stupidDNS
-این سرویس برای استفاده در سطح شبکه طراحی شده است و در صورتی که نیاز دارید سرویس در سطح شبکه قابل دسترسی و استفاده باشد پیشنهاد می شود از این سرویس استفاده کنید و راهنمای استفاده از آن در دایرکتوری stupidDNS موجود است
+# stupidDNS.local
+This service is designed for local system use. If you only need the DNS proxy locally (and not across your entire network), it is recommended to use this service. This way, no ports on your system's network will be exposed. Usage instructions are available inside the stupidDNS.local directory.
+
+# stupidDNS
+This service is designed for network-wide use. If you need the service to be accessible across your entire network, it is recommended to use this setup instead. Usage instructions are available inside the stupidDNS directory.
+
+
 
 ---
 thanks [ Morteza Farkhondepour](https://www.linkedin.com/in/morteza-farkhondepour/) for this idea
