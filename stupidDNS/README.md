@@ -1,44 +1,65 @@
 # stupidDNS
+The stupidDNS service is designed for use at the network level and can be accessed and used through the network. This service is very suitable for situations where you have a number of nodes and you want one of the nodes to have the role of local dns and nginx-proxy. The setup steps are as follows:
 
-سرویس stupidDNS برای استفاده در سطح شبکه طراحی شده است و از طریق شبکه قابل دسترسی و استفاده است ،این سرویس بسیار مناسب شرایطی است که تعدادی نود دارید و میخواهید یکی از نود ها نقش local dns و nginx-proxy را داشته باشد و مراحل ستاپ آن به شرح زیر است
-
-#### 1. نصب docker (در صورتی که در سیستم شما داکر نصب است این مرحله را نادیده بگیرید)
-#### 2. دریافت پروژه
+## 1. Install docker (ignore this step if docker is installed on your system)
+## 2. Clone the Project
 ```bash
 git clone https://github.com/Aydinttb/stupidDNS.git
 cd stupidDNS/stupidDNS
 ```
-#### 3. قراردادن آیپی سرور در فایل domains.conf
+## 3. Put the server IP in the `domains.conf` file 
+Find `<YOUR_IP>`
+```bash
+hostname -I
+```
 ```bash
 sed -i s/YOUR_SRV_IP/<YOUR_IP>/g dnsmasq/domains.conf 
 ```
-#### 4. اجرای کانتینر ها
+## 4. Run docker compose
 ```bash
 sudo docker compose up -d
 ```
-در صورتی که مراحل بالا به درستی به اتمام برسند ،سرور شما می تواند به عنوان dns ای مانند شکن در شبکه خدمات دهد 
-همچنین در صورتی که نیاز دارید این سرویس مانند یک dns server local رکورد های مد نظر شما را ریزالو کند می توانید رکورد مد نظرتان را در فرمت زیر به فایل `dnsmasq/domains.conf` اضافه کنید
+If the above steps are completed correctly, your server can serve as a DNS like a shecan1 in the network.
+Also, if you need this service to resolve your desired records like a local DNS server, you can add your desired record to the `dnsmasq/domains.conf` file in the following format.
+
+### Guide to adding a node
+1. Find `node_name` and `IP` on another node.
+```bash
+hostname
 ```
-address=/your_domain/IP
-### example
-address=/compute01/192.168.1.1
-address=/compute02/192.168.1.2
+Or
+```bash
+hostnamectl
+```
+Static hostname is what you want.
+
+Example:
+```bash
+address=/node_name/IP
+address=/node02/192.168.1.2
+```
+2. Add a node
+If the node you want does not pass through this service, you can add it to the `dnsmasq/domains.conf` file with the following format and then restart the dnsmasq container.
+```bash
+echo "address=/node_name/IP" >> dnsmasq/domains.conf
+sudo docker restart dnsmasq-proxy
 ```
 
 ---
-## راهنمای اضافه کردن دامنه 
-برای تست این که آیا ترافیک به سمت دامنه مد نظر شما از این سرویس عبور می کند یا خیر می توانید دستور زیر را اجرا کنید 
 
-```
-dig +short <your_domain.com> @127.0.0.1
-```
-در صورتی که ایپی ریزالو شده آیپی سرور stupidDNS شما باشد به این معنی است که ترافیک شما به سمت این دامنه از سرویس stupidDNS عبور می کند ولی در صورتی که مقدار دیگری ریزالو شود یعنی ترافیک به سمت دامنه مقصد از اینترنت دیفالت سیستم عبور می کند
-
-## اضافه کردن دامنه
-در صورتی که دامنه مورد نظرتان از این سرویس عبور نمیکند ،میتوانید آنرا با فرمت زیر به فایل dnsmasq/domains.conf اضافه کنید و سپس کانتینر dnsmasq را ریستارت کنید
+### Guide to adding a domain
+If the domain you want does not pass through this service, you can add it to the `dnsmasq/domains.conf` file with the following format and then restart the dnsmasq container.
 ```bash
-echo "address=/.<your_domain>/<your_IP>" >> dnsmasq/domains.conf
+echo "address=/.<your_domain>/<YOUR_IP>" >> dnsmasq/domains.conf
 sudo docker restart dnsmasq-proxy
 ```
-اگر دامنه به صورت `address=/.example.com/IP` اضافه شود به این معنی است که ترافیک خود دامنه و تمام زیر دامنه ها از پروکسی رد می شود ولی در صورتی که دامنه به صورت `address=/example.com/IP` اضافه شود فقط ترافیک دامنه `example.com` از پروکسی رد می شود و زیر دامنه های آن خیر
+If the domain is added as `address=/.example.com/IP`, it means that the traffic of the domain itself and all subdomains will be passed through the proxy, but if the domain is added as `address=/example.com/IP`, only the traffic of the domain `example.com` will be passed through the proxy and not its subdomains.
 
+---
+
+## Test
+To test whether traffic to your desired domain is passing through this service, you can run the following command:
+```bash
+dig +short <your_domain.com> @127.0.0.1
+```
+If the resolved IP is your stupidDNS server IP, it means that your traffic to this domain will pass through the stupidDNS service, but if another value is resolved, it means that traffic to the destination domain will pass through the system's default internet.
