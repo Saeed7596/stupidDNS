@@ -32,3 +32,26 @@ echo "address=/.example.com/172.20.20.22" >> dnsmasq/domains.conf
 sudo docker restart dnsmasq-proxy
 ```
 If the domain is added as `address=/.example.com/172.20.20.22`, it means that the traffic of the domain itself and all subdomains will be passed through the proxy, but if the domain is added as `address=/example.com/172.20.20.22`, only the traffic of the domain `example.com` will be passed through the proxy and not its subdomains.
+
+---
+
+# Connection Problem like `timeout`
+1. Stop the container
+```bash
+sudo docker compose down
+```
+2. Check `/etc/resolv.conf`
+```bash
+sudo nano /etc/resolv.conf
+```
+3. Add this
+```nginx
+# nameserver 172.20.20.20
+nameserver 8.8.8.8
+nameserver 1.1.1.1
+```
+4. Check
+```bash
+nmcli dev show | grep DNS
+cat /etc/resolv.conf
+```
